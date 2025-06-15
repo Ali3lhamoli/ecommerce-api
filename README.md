@@ -164,7 +164,7 @@ You can import this into Postman directly.
 
 **Ali Alhamoli**
 Backend Developer
-[LinkedIn](https://linkedin.com/in/ali-alhamoli) *(optional)*
+[LinkedIn](https://linkedin.com/in/ali-alhamoli)
 
 ---
 
