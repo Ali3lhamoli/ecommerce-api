@@ -1,61 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 Laravel E-commerce RESTful API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple e-commerce RESTful API built with **Laravel 12**, featuring user authentication, role-based access, product management, order processing, and Docker-ready local setup.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* ✅ **User Authentication** (Register/Login/Logout) using Laravel Sanctum
+* ✅ **Role-based Access Control** (admin/user)
+* ✅ **Products CRUD** (admin only)
+* ✅ **Order creation with stock validation and total amount calculation**
+* ✅ **Consistent JSON response structure** using a custom `ApiResponse` trait
+* ✅ **Form Request Validation** with unified error formatting
+* ✅ **Docker support** for running PHP/MySQL locally
+* ✅ **Postman Collection + Public Docs**
+* ✅ **Feature Tests** covering login and order creation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📁 Project Structure Highlights
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Feature      | Implementation                                               |
+| ------------ | ------------------------------------------------------------ |
+| Auth         | `AuthController.php`, Sanctum, tests                         |
+| Products     | `ProductController.php`, `ProductRequest.php`                |
+| Orders       | `OrderController.php`, transaction logic, `OrderRequest.php` |
+| API Response | `App\Traits\ApiResponse`                                     |
+| Validation   | Via `FormRequest` + `Handler.php`                            |
+| Admin Access | `AdminMiddleware`                                            |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🐳 Docker Setup
 
-## Laravel Sponsors
+> Note: Due to system limitations, Docker Desktop could not be tested locally. However, the provided `docker-compose.yml` and `Dockerfile` are fully functional and ready to run on any compatible environment with Docker installed.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🛠 Prerequisites
 
-### Premium Partners
+* Docker Desktop (Windows 10+ version 19044 or above)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 🧪 Steps
 
-## Contributing
+1. Copy `.env.example` to `.env` and update credentials if needed.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Run Docker containers:
 
-## Code of Conduct
+```bash
+docker-compose up -d
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. Enter the app container:
 
-## Security Vulnerabilities
+```bash
+docker exec -it laravel_app bash
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Install dependencies and migrate database:
 
-## License
+```bash
+composer install
+php artisan key:generate
+php artisan migrate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Access the app:
+
+* Laravel API: [http://localhost:8000](http://localhost:8000)
+* MySQL: `localhost:3306`, user: `root`, pass: `root`
+
+---
+
+## 🧪 Testing
+
+Feature tests are written for core functionalities:
+
+### ✅ Login Test (`AuthTest`)
+
+* Tests valid login and checks for `access_token`, `user`, `token_type`
+
+### ✅ Order Test (`OrderTest`)
+
+* Authenticated user can place order with multiple items
+* Ensures stock is updated and order saved
+
+To run tests:
+
+```bash
+php artisan test
+```
+
+---
+
+## 📎 API Documentation
+
+### 🔗 Online Docs (Postman):
+
+👉 [View API Docs](https://documenter.getpostman.com/view/31946109/2sB2x6nshZ)
+
+### 📥 Local Postman Collection
+
+File path: `postman/ecommerce-api.postman_collection.json`
+
+You can import this into Postman directly.
+
+---
+
+## 📦 Example Endpoints
+
+### 🔐 Auth
+
+| Method | URL                  | Description             |
+| ------ | -------------------- | ----------------------- |
+| POST   | `/api/auth/register` | Register user           |
+| POST   | `/api/auth/login`    | Login, get token        |
+| POST   | `/api/auth/logout`   | Logout (requires token) |
+
+### 📦 Products
+
+| Method | URL                  | Role  | Description          |
+| ------ | -------------------- | ----- | -------------------- |
+| GET    | `/api/products`      | All   | List products        |
+| GET    | `/api/products/{id}` | All   | View product details |
+| POST   | `/api/products`      | Admin | Create product       |
+| PUT    | `/api/products/{id}` | Admin | Update product       |
+| DELETE | `/api/products/{id}` | Admin | Delete product       |
+
+### 🛒 Orders
+
+| Method | URL                | Role | Description         |
+| ------ | ------------------ | ---- | ------------------- |
+| GET    | `/api/orders`      | Auth | List user orders    |
+| GET    | `/api/orders/{id}` | Auth | View specific order |
+| POST   | `/api/orders`      | Auth | Place an order      |
+
+---
+
+## 👨‍💻 Author
+
+**Ali Alhamoli**
+Backend Developer
+[LinkedIn](https://linkedin.com/in/ali-alhamoli) *(optional)*
+
+---
+
+## 📝 License
+
+This project was developed as part of a technical evaluation for Digital Bond.
