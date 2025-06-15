@@ -31,6 +31,31 @@ A simple e-commerce RESTful API built with **Laravel 12**, featuring user authen
 
 ---
 
+## ✅ Framework Choice
+
+This project uses **Laravel 12** because it offers:
+
+* Modern and clean structure
+* Built-in support for Sanctum (token-based auth)
+* Powerful Eloquent ORM for DB management
+* Convenient request validation and routing
+* First-class testing tools and Artisan CLI
+
+Laravel allows rapid development and is well-suited for scalable APIs.
+
+---
+
+## 📌 Assumptions Made During Development
+
+* Users can only access their own orders
+* Admins have full access to all product management endpoints
+* Order placement must validate product stock
+* No product image upload required
+* No frontend, only backend API with JSON responses
+* Token authentication done via Laravel Sanctum (not JWT)
+
+---
+
 ## 🐳 Docker Setup
 
 > Note: Due to system limitations, Docker Desktop could not be tested locally. However, the provided `docker-compose.yml` and `Dockerfile` are fully functional and ready to run on any compatible environment with Docker installed.
